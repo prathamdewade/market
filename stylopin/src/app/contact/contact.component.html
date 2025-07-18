@@ -58,28 +58,49 @@
 
         </div>
 
-        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
+        <form [formGroup]="contactUSform" (ngSubmit)="submit()" class="php-email-form" data-aos="fade-up" data-aos-delay="600">
           <div class="row gy-4">
 
             <div class="col-md-6">
-              <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+              <input type="text"  class="form-control" placeholder="* Your Name"  formControlName="name">
+              <div *ngIf="contactUSform.get('name')?.touched && contactUSform.get('name')?.invalid" style="color: red;">
+                Name is required.
+              </div>
+
             </div>
 
             <div class="col-md-6 ">
-              <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+              <input type="email" class="form-control"  placeholder="* Your Email"  formControlName="email">
+              
+              <div *ngIf="contactUSform.get('email')?.touched && contactUSform.get('email')?.invalid" style="color: red;">
+                <span *ngIf="contactUSform.get('email')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="contactUSform.get('email')?.errors?.['email']">Enter a valid email.</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <input type="number" class="form-control"  placeholder="* Contact Number" formControlName="contactNumber">
+               <div *ngIf="contactUSform.get('contactNumber')?.touched && contactUSform.get('contactNumber')?.invalid" style="color: red;">
+                Contact Number is required.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" class="form-control"  placeholder="* Subject" formControlName="subject">
+               <div *ngIf="contactUSform.get('subject')?.touched && contactUSform.get('subject')?.invalid" style="color: red;">
+                Subject is required.
+              </div>
             </div>
 
             <div class="col-md-12">
-              <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-            </div>
-
-            <div class="col-md-12">
-              <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+              <textarea class="form-control" rows="6" placeholder="* Message" formControlName="message"></textarea>
+              <div *ngIf="contactUSform.get('message')?.touched && contactUSform.get('message')?.invalid" style="color: red;">
+                Message is required.
+              </div>
             </div>
 
             <div class="col-md-12 text-center">
              
-              <button type="submit" class="btn btn-block btn-primary">Send Message</button>
+              <button type="submit" [disabled]="contactUSform.invalid" class="btn btn-block btn-primary">Send Message</button>
             </div>
 
           </div>

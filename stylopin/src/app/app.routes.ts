@@ -6,6 +6,7 @@ import { UpdateBannerComponent } from './manage/update-banner/update-banner.comp
 import { UpdateBuyNowComponent } from './manage/update-buy-now/update-buy-now.component';
 import { UpdateContactComponent } from './manage/update-contact/update-contact.component';
 import { LoginComponent } from './login/login.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 export const routes: Routes = [
     {path:"", component:ProductListComponent},
@@ -17,4 +18,6 @@ export const routes: Routes = [
     {path:"BuyNow", component:UpdateBuyNowComponent},
     {path:"Login", component:LoginComponent},
     {path:"ContactUS", component:UpdateContactComponent},
+    {path: '**',component: PagenotfoundComponent,
+  },
 ];

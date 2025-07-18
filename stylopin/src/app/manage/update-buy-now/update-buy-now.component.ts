@@ -14,10 +14,12 @@ export class UpdateBuyNowComponent implements OnInit{
   }
 
 
-   alertDeletFuntion(){
-    confirm("Are You sure Do you want to delete this product")
+   alertDeletFuntion(id:any){
+   var isConfirm=confirm("Are You sure Do you want to delete this product");
+    if(isConfirm){
+      
+    }
    }
-   
    
 
 }

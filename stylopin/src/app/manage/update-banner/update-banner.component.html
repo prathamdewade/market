@@ -44,31 +44,37 @@
             <div class="card">
                 <div class="title">Add Banner Details</div>
                 <div class="content">
-                    <div class="container-fluid">
-                        <div class="row  my-2">
+                    <form [formGroup]="bannerForm" (ngSubmit)="submit()">
+                        <div class="container-fluid">
+                             <div class="row  my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Banner Image</label>
-                                    <input type="file" class="form-control">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
+                                    <div *ngIf="bannerForm.get('images')?.touched && bannerForm.get('images')?.invalid" style="color: red;">
+                                        Images is required.
+                                    </div>
                                 </div>
                             </div>
-                        
+                       
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Banner Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" rows="3" formControlName="Description" placeholder="* Your Description" ></textarea>
+                                    <div *ngIf="bannerForm.get('Description')?.touched && bannerForm.get('Description')?.invalid" style="color: red;">
+                                        Description is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Add Item</button>
-                                 <button type="reset" class="btn btn-danger">Cancel</button> 
+                            <div class="row  my-2">
+                                <div class="col-sm-12">
+                                    <button type="submit" [disabled]="bannerForm.invalid" class="btn btn-secondary">Add Image</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button> 
+                                </div>
                             </div>
                         </div>
-
-
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -90,13 +96,15 @@
 						    <tbody>
                                 @for (item of product; track $index; let i = $index) {
 						      <tr>
-						        <td>https://abcd.png</td>
+						        <td>
+                                    <img width="100" src="https://edsurge.imgix.net/uploads/post/image/10126/2017-1502863434.jpg?auto=compress%2Cformat&w=1024&h=512&fit=crop" class="img-fluid animated " alt="">
+                                </td>
 						        <td>The definition of available is someone or something that can be found, used or accessed. An example of an available option is a color that can be chosen for </td>
 						        <td>
 						        	
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp">Edit</button>
                          
-                                    <button class="btn btn-danger" (click)="alertDeletFuntion()">Delete</button>
+                                    <button class="btn btn-danger" (click)="alertDeletFuntion(1)">Delete</button>
 						        </td>
 						      </tr>
                               }
@@ -120,7 +128,7 @@
         </div>
     </div>
 
-    <span id="show-lable">Hello</span>
+
 
 
 
@@ -142,28 +150,37 @@
           <div class="content">
                     <div class="container-fluid">
                        
-                        <div class="row  my-2">
+                        <form [formGroup]="updateBanner" (ngSubmit)="Update()">
+                        <div class="container-fluid">
+                             <div class="row  my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Banner Image</label>
-                                    <input type="file" class="form-control">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
+                                    <div *ngIf="updateBanner.get('images')?.touched && updateBanner.get('images')?.invalid" style="color: red;">
+                                        Images is required.
+                                    </div>
                                 </div>
                             </div>
-                        
+                       
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Banner Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" rows="3" formControlName="Description" placeholder="* Your Description" ></textarea>
+                                    <div *ngIf="updateBanner.get('Description')?.touched && updateBanner.get('Description')?.invalid" style="color: red;">
+                                        Description is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Edit Item</button>
-                                 <button type="reset" class="btn btn-danger">Cancel</button> 
+                            <div class="row  my-2">
+                                <div class="col-sm-12">
+                                    <button type="submit" [disabled]="updateBanner.invalid" class="btn btn-secondary">Add Image</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button> 
+                                </div>
                             </div>
                         </div>
+                    </form>
 
 
                     </div>

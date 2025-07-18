@@ -52,41 +52,63 @@
 
       <div class="row" data-aos="fade-up" data-aos-delay="100">
 
-        <form action="forms/contact.php" method="post" class="php-email-form col-md-7" data-aos="fade-up" data-aos-delay="600">
+        <form   [formGroup]="orderform" (ngSubmit)="submit()"   class="php-email-form col-md-7" data-aos="fade-up" data-aos-delay="600">
           <div class="row gy-4">
 
             <div class="col-md-6">
-              <input type="text" name="name" class="form-control form-control-sm" placeholder="Your Name" required="">
+              <input type="text"  class="form-control form-control-sm" placeholder="* Your Name"  formControlName="name">
+              <div *ngIf="orderform.get('name')?.touched && orderform.get('name')?.invalid" style="color: red;">
+                Name is required.
+              </div>
             </div>
 
             <div class="col-md-6 ">
-              <input type="email" class="form-control form-control-sm" name="email" placeholder="Your Email" required="">
+              <input type="email" class="form-control"  placeholder="* Your Email"  formControlName="email">
+              
+              <div *ngIf="orderform.get('email')?.touched && orderform.get('email')?.invalid" style="color: red;">
+                <span *ngIf="orderform.get('email')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="orderform.get('email')?.errors?.['email']">Enter a valid email.</span>
+              </div>
             </div>
 
            <div class="col-md-6">
-              <input type="tel" name="contact" class="form-control form-control-sm" placeholder="Your Contact Number" required="">
+              <input type="number"  class="form-control form-control-sm" placeholder="* Your Contact Number"  formControlName="number">
+              <div *ngIf="orderform.get('number')?.touched && orderform.get('number')?.invalid" style="color: red;">
+                Name is required.
+              </div>
             </div>
 
             <div class="col-md-6 ">
-              <input type="number" class="form-control form-control-sm" name="peace" placeholder="Number Of Peace" required="">
+              <input type="number" class="form-control form-control-sm"  placeholder="* Number Of Peace"  formControlName="numberofitem">
+               <div *ngIf="orderform.get('numberofitem')?.touched && orderform.get('numberofitem')?.invalid" style="color: red;">
+                Peaces is required.
+              </div>
             </div>
 
-			<div class="col-md-12">
-              <textarea class="form-control" name="Shipping" rows="4" placeholder="Enter Your Shipping address" required=""></textarea>
+			      <div class="col-md-12">
+              <textarea class="form-control"  rows="4" placeholder="* Enter Your Shipping address"  formControlName="address"></textarea>
+               <div *ngIf="orderform.get('address')?.touched && orderform.get('address')?.invalid" style="color: red;">
+                Your Shipping address is required.
+              </div>
             </div>
 
             <div class="col-md-12">
-              <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
+              <textarea class="form-control"  rows="4" placeholder="* Message" formControlName="message"></textarea>
+               <div *ngIf="orderform.get('message')?.touched && orderform.get('message')?.invalid" style="color: red;">
+                Message is required.
+              </div>
             </div>
 
             <div class="col-md-12 text-center">
              
-              <button type="submit" class="btn btn-block btn-primary">Place Order / Payment Mode</button>
+              <button type="submit" [disabled]="orderform.invalid" class="btn btn-block btn-primary">Place Order / Payment Mode</button>
             </div>
 
           </div>
         </form><!-- End Contact Form -->
 		<div class="col-md-5 border">
+
+
 			<h4>Prodect Details</h4>
 			<hr>
 			<p>Product Name: some chairs</p>

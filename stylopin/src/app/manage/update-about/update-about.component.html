@@ -45,17 +45,24 @@
                 <div class="title">Add About Details</div>
                 <div class="content">
                     <div class="container-fluid">
+                        <form [formGroup]="aboutform" (ngSubmit)="submit()" >
                         <div class="row my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Title Name</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text"  class="form-control form-control-sm" placeholder="* Your title"  formControlName="title">
+                                    <div *ngIf="aboutform.get('title')?.touched && aboutform.get('title')?.invalid" style="color: red;">
+                                        Title is required.
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Sub Title Name</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text"  class="form-control form-control-sm" placeholder="* Your subTitle"  formControlName="subTitle">
+                                    <div *ngIf="aboutform.get('subTitle')?.touched && aboutform.get('subTitle')?.invalid" style="color: red;">
+                                        Sub Title is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,25 +71,31 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Image</label>
-                                    <input type="file" class="form-control">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
+                                    <div *ngIf="aboutform.get('images')?.touched && aboutform.get('images')?.invalid" style="color: red;">
+                                        Images is required.
+                                    </div>
                                 </div>
                             </div>
                        
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" rows="3" formControlName="Description" placeholder="* Your Description" ></textarea>
+                                    <div *ngIf="aboutform.get('Description')?.touched && aboutform.get('Description')?.invalid" style="color: red;">
+                                        Description is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row  my-2">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Add Item</button>
+                                <button type="submit" [disabled]="aboutform.invalid" class="btn btn-secondary">Add Item</button>
                                  <button type="reset" class="btn btn-danger">Cancel</button> 
                             </div>
                         </div>
 
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -111,13 +124,15 @@
                                 <td>{{i+1}}</td>
 						        <td>Office Chairs</td>
 						        <td>Available</td>
-						        <td>https://abcd.png</td>
+						        <td>     
+                                    <img width="100" src="https://edsurge.imgix.net/uploads/post/image/10126/2017-1502863434.jpg?auto=compress%2Cformat&w=1024&h=512&fit=crop" class="img-fluid animated " alt="">
+                                </td>
 						        <td width="400">The definition of available is someone or something that can be found, used or accessed. An example of an available option is a color that can be chosen for </td>
 						        <td>
 						        	
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp">Edit</button>
                          
-                                    <button class="btn btn-danger" (click)="alertDeletFuntion()">Delete</button>
+                                    <button class="btn btn-danger" (click)="alertDeletFuntion(1)">Delete</button>
 						        </td>
 						      </tr>
                               }
@@ -141,7 +156,7 @@
         </div>
     </div>
 
-    <span id="show-lable">Hello</span>
+   
 
 
 
@@ -164,17 +179,24 @@
                     <div class="container-fluid">
                        
                        
+                        <form [formGroup]="aboutUpdateform" (ngSubmit)="Update()" >
                         <div class="row my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Title Name</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text"  class="form-control form-control-sm" placeholder="* Your title"  formControlName="title">
+                                    <div *ngIf="aboutUpdateform.get('title')?.touched && aboutUpdateform.get('title')?.invalid" style="color: red;">
+                                        Title is required.
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Sub Title Name</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text"  class="form-control form-control-sm" placeholder="* Your subTitle"  formControlName="subTitle">
+                                    <div *ngIf="aboutUpdateform.get('subTitle')?.touched && aboutUpdateform.get('subTitle')?.invalid" style="color: red;">
+                                        Sub Title is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -183,22 +205,31 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Image</label>
-                                    <input type="file" class="form-control">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
+                                    <div *ngIf="aboutUpdateform.get('images')?.touched && aboutUpdateform.get('images')?.invalid" style="color: red;">
+                                        Images is required.
+                                    </div>
                                 </div>
                             </div>
+                       
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" rows="3" formControlName="Description" placeholder="* Your Description" ></textarea>
+                                    <div *ngIf="aboutUpdateform.get('Description')?.touched && aboutUpdateform.get('Description')?.invalid" style="color: red;">
+                                        Description is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row  my-2">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Edit Item</button>
+                                <button type="submit" [disabled]="aboutUpdateform.invalid" class="btn btn-secondary">Add Item</button>
                                  <button type="reset" class="btn btn-danger">Cancel</button> 
                             </div>
                         </div>
+
+                        </form>
 
 
                     </div>

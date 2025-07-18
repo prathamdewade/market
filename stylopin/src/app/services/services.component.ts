@@ -1,14 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component,
   OnInit } from '@angular/core';
+<<<<<<< HEAD
   
 
+=======
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+>>>>>>> origin/main
 @Component({
   selector: 'app-services',
-  imports: [],
+    imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css'
 })
 export class ServicesComponent implements OnInit {
+<<<<<<< HEAD
   /**
    *
    */
@@ -16,9 +22,46 @@ export class ServicesComponent implements OnInit {
    
     
   }
+=======
+
+>>>>>>> origin/main
 
   ngOnInit(): void {
   }
+
+  orderform: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.orderform = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      number: ['', Validators.required],
+      numberofitem:['', Validators.required],
+      address:  ['', Validators.required],
+      message: ['', Validators.required],
+      productID: ['4', Validators.required],
+    });
+  }
+
+
+
+
+  submit() {
+    if (this.orderform.invalid) {
+    this.orderform.markAllAsTouched(); // 👈 Force show validation errors
+    return;
+  }
+    console.log(this.orderform.value);
+  }
+
+
+
+
+
+
+
+
+
   char:any=[
    
     {url: "../../assets/chair/i (1).jfif", name: "Chair"},
