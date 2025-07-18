@@ -1,204 +1,205 @@
-
- <div id="logo">
-        <span class="big-logo">Stylopin.in</span>
-        <span class="small-logo">S!M</span>
-    </div>
-    <div id="left-menu">
-        <ul>
-            <li routerLinkActive="active"><a routerLink="/Dashboard">
+<div id="logo">
+    <span class="big-logo">Stylopin.in</span>
+    <span class="small-logo">S!M</span>
+</div>
+<div id="left-menu">
+    <ul>
+        <li routerLinkActive="active"><a routerLink="/Dashboard">
                 <i class="ion-ios-person-outline"></i>
                 <span>Product</span>
             </a></li>
-            <li routerLinkActive="active"><a routerLink="/About">
+        <li routerLinkActive="active"><a routerLink="/About">
                 <i class="ion-ios-albums-outline"></i>
                 <span>About</span>
             </a></li>
-            <li routerLinkActive="active"><a routerLink="/Banner">
+        <li routerLinkActive="active"><a routerLink="/Banner">
                 <i class="ion-ios-albums-outline"></i>
                 <span>Banner</span>
             </a></li>
-            
-            <li routerLinkActive="active"><a routerLink="/BuyNow">
+
+        <li routerLinkActive="active"><a routerLink="/BuyNow">
                 <i class="ion-ios-chatboxes-outline"></i>
                 <span>BuyNow</span>
             </a></li>
-            
-             <li routerLinkActive="active"><a routerLink="/ContactUS">
+
+        <li routerLinkActive="active"><a routerLink="/ContactUS">
                 <i class="ion-ios-chatboxes-outline"></i>
                 <span>Contact</span>
             </a></li>
 
-        </ul>
-    </div>
-    <div id="main-content">
-        <div id="header" class="row">
-            <div class="header-left float-left col-sm-6" >
-                <i id="toggle-left-menu" class="ion-android-menu"></i>
-            </div>
-            <div class="header-right float-right col-sm-6 text-end">
-                <i class="ion-ios-people"></i>
-            </div>
+    </ul>
+</div>
+
+<div id="main-container">
+    <div id="header" class="row">
+        <div class="header-left float-left col-sm-6">
+            <i id="toggle-left-menu" class="ion-android-menu"></i>
         </div>
+        <div class="header-right float-right col-sm-6 text-end">
+            <i class="ion-ios-people"></i>
+        </div>
+    </div>
+       <div id ="page-container">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <div class="card">
+            <div class="title">Add Product Details</div>
+            <div class="content">
+                <div class="container-fluid">
 
-        <div id="page-container">
-            <div class="card">
-                <div class="title">Add Prodect Details</div>
-                <div class="content">
-                    <div class="container-fluid">
-                        <div class="row my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Name</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Price</label>
-                                    <input type="number" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                         
-                        <div class="row  my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Category</label>
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="">Chairs</option>
-                                        <option value="">Garments</option>
-                                        <option value="">Toyes</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Stock</label>
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="">Available</option>
-                                        <option value="">Not Available</option>
-                                    </select>
-                                </div>
-                            </div>
+                    <div class="row my-2">
+                        <div class="col-sm-6">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" formControlName="name">
+                            <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid" style="color: red;">Product name is required</div>
                         </div>
 
-                        <div class="row  my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Image</label>
-                                    <input type="file" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Number of Product</label>
-                                    <input type="number" class="form-control">
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
+                            <label>Product Price</label>
+                            <input type="number" class="form-control" formControlName="price">
+                            <div *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid" style="color: red;">Price is required</div>
                         </div>
-
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="">Product Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Add Item</button>
-                                 <button type="reset" class="btn btn-danger">Cancel</button> 
-                            </div>
-                        </div>
-
-
                     </div>
-                </div>
-            </div>
 
+                    <div class="row my-2">
+                        <div class="col-sm-6">
+                            <label>Product Category</label>
+                            <select class="form-control" formControlName="category">
+                                <option value="">Select</option>
+                                <option value="Chairs">Chairs</option>
+                                <option value="Garments">Garments</option>
+                                <option value="Toys">Toys</option>
+                            </select>
+                            <div *ngIf="productForm.get('category')?.touched && productForm.get('category')?.invalid" style="color: red;">Category is required</div>
+                        </div>
 
-        
-
-            <div class="card">
-                <div class="title">Product Details</div>
-                <div class="content">
-                    <div class="container-fluid">
-                        <table class="table table-bordered">
-						    <thead>
-						      <tr>
-                                <th>SR NO</th>
-						        <th>Product Name</th>
-						        <th>Product Price </th>
-						        <th>Product Category</th>
-						        <th>Product Stock</th>
-						        <th>Product Image </th>
-                                 <th>Number of Product </th>
-						        <th>Product Description</th>
-						        <th>Action</th>
-						      </tr>
-						    </thead>
-						    <tbody>
-                                @for (item of product; track $index; let i = $index) {
-						      <tr>
-                                <td>{{i+1}}</td>
-						        <td>Office Chairs</td>
-						        <td>500.00</td>
-						        <td>Chair</td>
-						        <td>Available</td>
-						        <td>https://abcd.png</td>
-						        <td width="300">The definition of available is someone or something that can be found, used or accessed. An example of an available option is a color that can be chosen for </td>
-						        <td>20</td>
-                                <td>
-						        	
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp">Edit</button>
-                         
-                                    <button class="btn btn-danger" (click)="alertDeletFuntion()">Delete</button>
-						        </td>
-						      </tr>
-                              }
-						      
-						    </tbody>
-						  </table>
-
-                          <div class="m-2">
-                            <ul class="pagination justify-content-end pagination-sm">
-                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-                            </ul>
-                          </div>
+                        <div class="col-sm-6">
+                            <label>Status</label>
+                            <select class="form-control" formControlName="status">
+                                <option value="">Select</option>
+                                <option value="true">Available</option>
+                                <option value="false">Not Available</option>
+                            </select>
+                            <div *ngIf="productForm.get('status')?.touched && productForm.get('status')?.invalid" style="color: red;">Status is required</div>
+                        </div>
                     </div>
+
+                    <div class="row my-2">
+                        <div class="col-sm-6">
+                            <label>Product Image</label>
+                            <input type="file" class="form-control" (change)="onFileSelected($event)">
+                            <div *ngIf="productForm.get('image')?.touched && productForm.get('image')?.invalid" style="color:  red;">Image is required</div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label>Number of Product</label>
+                            <input type="number" class="form-control" formControlName="quantity">
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-sm-12">
+                            <label>Product Description</label>
+                            <textarea class="form-control" rows="3" formControlName="description"></textarea>
+                            <div *ngIf="productForm.get('description')?.touched && productForm.get('description')?.invalid" style="color: red;">Description is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-success" >Add
+                                Item</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </form>
+
+
+
+
+
+    <div class="card">
+        <div class="title">Product Details</div>
+        <div class="content">
+            <div class="container-fluid">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SR NO</th>
+                            <th>Product Name</th>
+                            <th>Product Price </th>
+                            <th>Product Category</th>
+                            <th>Product Stock</th>
+                            <th>Product Image </th>
+                            <th>Number of Product </th>
+                            <th>Product Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of product; track $index; let i = $index) {
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>Office Chairs</td>
+                            <td>500.00</td>
+                            <td>Chair</td>
+                            <td>Available</td>
+                            <td>https://abcd.png</td>
+                            <td width="300">The definition of available is someone or something that can be found, used
+                                or accessed. An example of an available option is a color that can be chosen for </td>
+                            <td>20</td>
+                            <td>
+
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#myModalp">Edit</button>
+
+                                <button class="btn btn-danger" (click)="alertDeletFuntion()">Delete</button>
+                            </td>
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+                <div class="m-2">
+                    <ul class="pagination justify-content-end pagination-sm">
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+</div>
 
-    <span id="show-lable">Hello</span>
+<span id="show-lable">Hello</span>
 
 
 
-   
 
-    <!-- The Modal -->
-    <div class="modal" id="myModalp">
+
+<!-- The Modal -->
+<div class="modal" id="myModalp">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title">Edit Product</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Product</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div class="content">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="content">
                     <div class="container-fluid">
                         <div class="row my-2">
                             <div class="col-sm-6">
@@ -214,7 +215,7 @@
                                 </div>
                             </div>
                         </div>
-                         
+
                         <div class="row  my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -246,7 +247,7 @@
                                     <input type="file" class="form-control">
                                 </div>
                             </div>
-                             <div class="col-sm-6">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">Number of Product</label>
                                     <input type="number" class="form-control">
@@ -265,20 +266,20 @@
                         <div class="row  my-2">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-secondary">Edit Item</button>
-                                 <button type="reset" class="btn btn-danger">Cancel</button> 
+                                <button type="reset" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
 
 
                     </div>
                 </div>
-        </div>
+            </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
 
         </div>
     </div>
-    </div>
+</div>

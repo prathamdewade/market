@@ -1,5 +1,6 @@
 import { Component,
   OnInit } from '@angular/core';
+  
 
 @Component({
   selector: 'app-services',
@@ -8,8 +9,13 @@ import { Component,
   styleUrl: './services.component.css'
 })
 export class ServicesComponent implements OnInit {
-
-  constructor() { }
+  /**
+   *
+   */
+  constructor() {
+   
+    
+  }
 
   ngOnInit(): void {
   }
@@ -65,4 +71,6 @@ buyid:any=0
   buy(id:any){
     this.buyid=id;
   }
+
+ 
 }
