@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component,
   OnInit } from '@angular/core';
-<<<<<<< HEAD
-  
-
-=======
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
->>>>>>> origin/main
 @Component({
   selector: 'app-services',
     imports: [ReactiveFormsModule,CommonModule],
@@ -14,17 +9,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   styleUrl: './services.component.css'
 })
 export class ServicesComponent implements OnInit {
-<<<<<<< HEAD
-  /**
-   *
-   */
-  constructor() {
-   
-    
-  }
-=======
-
->>>>>>> origin/main
 
   ngOnInit(): void {
   }

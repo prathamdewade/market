@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+export interface Product {
+  pId: number;
+  categoryName: string;
+  pName: string;
+  status: boolean;
+  description: string;
+  imageData: string;      // base64 string representation of byte[]
+  imageName: string;      // original filename
+  price: number;
+  productQuantity: number;
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class APIService {
 
    private apiUrl = 'https://jsonplaceholder.typicode.com/users'; // Replace with your API URL
@@ -23,4 +35,14 @@ export class APIService {
   addProduct(product: FormData): Observable<any> {
     return this.http.post(this.url+"/Product/Add", product);
   }
+  //https://localhost:7234/api/Product/list
+  getAllProduct(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.url + '/Product/list');
+  }
+  //this function is used to delete the product
+ // https://localhost:7234/api/Product/remove/
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete(`${this.url}/Product/remove/${id}`);
+  }
+  
 }
