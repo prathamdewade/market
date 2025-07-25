@@ -67,12 +67,13 @@
                             </div>
                         </div>
 
+
                         <div class="row  my-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Image</label>
-                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
-                                    <div *ngIf="aboutform.get('images')?.touched && aboutform.get('images')?.invalid" style="color: red;">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your image"  formControlName="image" (change)="onFileSelected($event)">
+                                    <div *ngIf="aboutform.get('image')?.touched && aboutform.get('image')?.invalid" style="color: red;">
                                         Images is required.
                                     </div>
                                 </div>
@@ -122,17 +123,18 @@
                                 @for (item of product; track $index; let i = $index) {
 						      <tr>
                                 <td>{{i+1}}</td>
-						        <td>Office Chairs</td>
-						        <td>Available</td>
-						        <td>     
-                                    <img width="100" src="https://edsurge.imgix.net/uploads/post/image/10126/2017-1502863434.jpg?auto=compress%2Cformat&w=1024&h=512&fit=crop" class="img-fluid animated " alt="">
+						        <td>{{item.heading}}</td>
+						        <td>{{item.subHeading}}</td>
+						       <td>
+                                    <img [src]="'data:image/jpeg;base64,' + item.imageData" [alt]="item.imageName"
+                                        width="100" height="100">
                                 </td>
-						        <td width="400">The definition of available is someone or something that can be found, used or accessed. An example of an available option is a color that can be chosen for </td>
+						        <td width="400">{{item.paragraph}} </td>
 						        <td>
 						        	
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp">Edit</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp" (click)="onSendToUpdate(item.id)">Edit</button>
                          
-                                    <button class="btn btn-danger" (click)="alertDeletFuntion(1)">Delete</button>
+                                    <button class="btn btn-danger" (click)="alertDeletFuntion(item.id)">Delete</button>
 						        </td>
 						      </tr>
                               }
@@ -205,8 +207,8 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="">About Image</label>
-                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="images">
-                                    <div *ngIf="aboutUpdateform.get('images')?.touched && aboutUpdateform.get('images')?.invalid" style="color: red;">
+                                    <input type="file"  class="form-control form-control-sm" placeholder="* Your images"  formControlName="image" (change)="onFileSelected($event)">
+                                    <div *ngIf="aboutUpdateform.get('image')?.touched && aboutUpdateform.get('image')?.invalid" style="color: red;">
                                         Images is required.
                                     </div>
                                 </div>

@@ -40,83 +40,129 @@
     </div>
 
     <div id="page-container">
-        <div class="card">
-            <div class="title">Add Prodect Details</div>
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="row my-2">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Product Name</label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Product Price</label>
-                                <input type="number" class="form-control">
-                            </div>
-                        </div>
-                    </div>
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div class="card">
+                <div class="title">Add Product Details</div>
+                <div class="content">
+                    <div class="container-fluid">
 
-                    <div class="row  my-2">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Product Category</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Select</option>
-                                    <option value="">Chairs</option>
-                                    <option value="">Garments</option>
-                                    <option value="">Toyes</option>
-                                </select>
+                        <!-- Product Name -->
+                        <div class="row my-2">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <input type="text" class="form-control" formControlName="name"
+                                        placeholder="Enter Product Name">
+                                    <div *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid"
+                                        style="color: red">
+                                        Product name is required.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Stock</label>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Select</option>
-                                    <option value="">Available</option>
-                                    <option value="">Not Available</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row  my-2">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Product Image</label>
-                                <input type="file" class="form-control">
+                            <!-- Product Price -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Product Price</label>
+                                    <input type="number" class="form-control" formControlName="price"
+                                        placeholder="Enter Product Price">
+                                    <div *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid"
+                                        style="color: red">
+                                        Product price is required.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Number of Product</label>
-                                <input type="number" class="form-control">
+
+                        <!-- Category & Stock -->
+                        <div class="row my-2">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Product Category</label>
+                                    <select class="form-control" formControlName="category">
+                                        <option value="">Select</option>
+                                        <option value="Chairs">Chairs</option>
+                                        <option value="Garments">Garments</option>
+                                        <option value="Toys">Toys</option>
+                                    </select>
+                                    <div *ngIf="productForm.get('category')?.touched && productForm.get('category')?.invalid"
+                                        style="color: red">
+                                        Category is required.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Stock</label>
+                                    <select class="form-control" formControlName="status">
+                                        <option value="">Select</option>
+                                        <option value="true">Available</option>
+                                        <option value="false">Not Available</option>
+                                    </select>
+                                    <div *ngIf="productForm.get('status')?.touched && productForm.get('status')?.invalid"
+                                        style="color: red">
+                                        Stock status is required.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row  my-2">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="">Product Description</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                        <!-- Product Image & Quantity -->
+                        <div class="row my-2">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Product Image</label>
+                                    <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                    <div *ngIf="productForm.get('image')?.touched && productForm.get('image')?.invalid"
+                                        style="color: red">
+                                        Product image is required.
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Number of Product</label>
+                                    <input type="number" class="form-control" formControlName="quantity"
+                                        placeholder="Enter Product Quantity">
+                                    <div *ngIf="productForm.get('quantity')?.touched && productForm.get('quantity')?.invalid"
+                                        style="color: red">
+                                        Product quantity is required.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row  my-2">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-secondary">Add Item</button>
-                            <button type="reset" class="btn btn-danger">Cancel</button>
+
+                        <!-- Product Description -->
+                        <div class="row my-2">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Product Description</label>
+                                    <textarea class="form-control" rows="3" formControlName="description"
+                                        placeholder="Enter Description"></textarea>
+                                    <div *ngIf="productForm.get('description')?.touched && productForm.get('description')?.invalid"
+                                        style="color: red">
+                                        Product description is required.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="row my-2">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-secondary">Add Item</button>
+                                <button type="reset" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </div>
+
                     </div>
-
-
                 </div>
             </div>
-        </div>
+        </form>
+
 
 
 
@@ -155,8 +201,8 @@
                                 <td>{{item.productQuantity}}</td>
                                 <td>
 
-                                    <button class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#myModalp" (click)="sendToUpdate(item.pId)">Edit</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModalp"
+                                        (click)="sendToUpdate(item.pId)">Edit</button>
 
                                     <button class="btn btn-danger" (click)="alertDeletFuntion(item.pId)">Delete</button>
                                 </td>
@@ -200,83 +246,122 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="content">
-                    <div class="container-fluid">
-                        <div class="row my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Name</label>
-                                    <input type="text" class="form-control">
+            <form [formGroup]="updateProduct" (ngSubmit)="onUpdateSubmit()">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="row my-2">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Product Name</label>
+                                        <input type="text" class="form-control" formControlName="name"
+                                            placeholder="Enter Product Name">
+                                        <div *ngIf="updateProduct.get('name')?.touched && updateProduct.get('name')?.invalid"
+                                            style="color: red">
+                                            Product name is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Product Price</label>
+                                        <input type="number" class="form-control" formControlName="price"
+                                            placeholder="Enter Product Price">
+                                        <div *ngIf="updateProduct.get('price')?.touched && updateProduct.get('price')?.invalid"
+                                            style="color: red">
+                                            Product price is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Price</label>
-                                    <input type="number" class="form-control">
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row  my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Category</label>
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="">Chairs</option>
-                                        <option value="">Garments</option>
-                                        <option value="">Toyes</option>
-                                    </select>
+                            <div class="row  my-2">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Product Category</label>
+                                        <select name="" id="" class="form-control" formControlName="category">
+                                            <option value="">Select</option>
+                                            <option value="Chairs">Chairs</option>
+                                            <option value="Garments">Garments</option>
+                                            <option value="Toys">Toys</option>
+                                        </select>
+                                        <div *ngIf="updateProduct.get('category')?.touched && updateProduct.get('category')?.invalid"
+                                            style="color: red">
+                                            Category is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Stock</label>
+                                        <select name="" id="" class="form-control" formControlName="status">
+                                            <option value="">Select</option>
+                                            <option value="true">Available</option>
+                                            <option value="false">Not Available</option>
+                                        </select>
+                                        <div *ngIf="updateProduct.get('status')?.touched && updateProduct.get('status')?.invalid"
+                                            style="color: red">
+                                            Stock status is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Stock</label>
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="">Available</option>
-                                        <option value="">Not Available</option>
-                                    </select>
+                            <!--  <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                    <div *ngIf="productForm.get('image')?.touched && productForm.get('image')?.invalid"
+                                        style="color: red">
+                                        Product image is required.
+                                    </div> -->
+                            <div class="row  my-2">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Product Image</label>
+                                        <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                        <div *ngIf="productForm.get('image')?.touched && productForm.get('image')?.invalid"
+                                            style="color: red">
+                                            Product image is required.
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="">Number of Product</label>
+                                        <input type="number" class="form-control" formControlName="quantity"
+                                            placeholder="Enter Product Quantity">
+                                        <div *ngIf="updateProduct.get('quantity')?.touched && updateProduct.get('quantity')?.invalid"
+                                            style="color: red">
+                                            Product quantity is required.
+                                        </div>
 
-                        <div class="row  my-2">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Product Image</label>
-                                    <input type="file" class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Number of Product</label>
-                                    <input type="number" class="form-control">
+
+                            <div class="row  my-2">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Product Description</label>
+                                        <textarea class="form-control" rows="3" formControlName="description" ></textarea>
+                                        <div *ngIf="updateProduct.get('description')?.touched && updateProduct.get('description')?.invalid"
+                                            style="color: red">
+                                            Product description is required.
+                                            </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="">Product Description</label>
-                                    <textarea class="form-control" rows="3"></textarea>
+                            <div class="row  my-2">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-secondary">Edit Item</button>
+                                    <button type="reset" class="btn btn-danger">Cancel</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row  my-2">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-secondary">Edit Item</button>
-                                <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
-                        </div>
 
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <!-- Modal footer -->
             <div class="modal-footer">

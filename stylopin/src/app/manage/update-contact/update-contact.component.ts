@@ -10,13 +10,13 @@ import { APIService } from '../../shardData/api.service';
   styleUrl: './update-contact.component.css'
 })
 export class UpdateContactComponent implements OnInit{
-  data:any;
+ // data:any;
 
  constructor(private dataService: APIService) { }
- product:any=[1,2,3,4,5,6,7]
+ product:any;
   ngOnInit() {
-    this.dataService.getProducts().subscribe((res)=>{
-      this.data=res;
+    this.dataService.getAllContact().subscribe((res)=>{
+      this.product=res.data;
       console.log(res)
     })
   }
@@ -25,7 +25,12 @@ export class UpdateContactComponent implements OnInit{
    alertDeletFuntion(id:any){
    var isConfirm=confirm("Are You sure Do you want to delete this product");
     if(isConfirm){
-      
+      this.dataService.deleteContact(id).subscribe((res)=>{
+        console.log(res);
+        this.ngOnInit(); // Refresh the contact list after deletion
+      },(err)=>{
+        console.error("Error deleting contact:", err);
+      });
     }
    }
    

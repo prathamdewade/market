@@ -58,9 +58,10 @@
 						        <th>Customer Address</th>
                                 <th>Customer Number of Pices</th>
 						        <th>Customer Massages</th>
-
+                                 
 						        <th>Product Name</th>
 						        <th>Product Price </th>
+                                <th>Total Price</th>
 						        <th>Product Category</th>
 						        <th>Product Stock</th>
 						        <th>Product Image </th>
@@ -69,27 +70,36 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-                                @for (item of product; track $index; let i = $index) {
+                                @for (item of orderData; track $index; let i = $index) {
 						      <tr>
-                                <td>Deepak Jadhav</td>
-						        <td>98989898</td>
-						        <td>deepakgmail.com</td>
-						        <td>Pune</td>
-                                <td>3</td>
-						        <td>My Massage The definition of available is someone or</td>
+                                <td>{{item.cIdNavigation.cName}}</td>
+						        <td>{{item.cIdNavigation.contactNumber}}</td>
+						        <td>{{item.cIdNavigation.cEmail}}</td>
+						        <td>{{item.cIdNavigation.address}}</td>
+                                <td>{{item.productQuantity}}</td>
+						        <td>{{item.message}}</td>
                                 
-						        <td>Office Chairs</td>
-						        <td>500.00</td>
-						        <td>Chair</td>
-						        <td>Available</td>
+						        <td>{{item.pIdNavigation.pName}}</td>
+						        <td>{{item.pIdNavigation.price}}</td>
+                                 <td>{{item.totalPrice}}</td>
 						        <td>
-                                    <img width="100" src="https://edsurge.imgix.net/uploads/post/image/10126/2017-1502863434.jpg?auto=compress%2Cformat&w=1024&h=512&fit=crop" class="img-fluid animated " alt="">
+                                    {{item.pIdNavigation.cIdNavigation.cName}}
+
+                                </td> 
+                        
+						        <td>
+                                    <span *ngIf="item.pIdNavigation.status === true">Available</span>
+                                    <span *ngIf="item.pIdNavigation.status === false">Not Available</span>
                                 </td>
-						        <td width="300">The definition of available is someone or something that can be found, used or accessed. An example of an available option is a color that can be chosen for </td>
+						        <td>
+                                    <img [src]="'data:image/jpeg;base64,' + item.pIdNavigation.imageData" [alt]="item.pIdNavigation.imageName"
+                                        width="100" height="100">
+                                </td>
+						        <td width="300">{{item.pIdNavigation.description}} </td>
 						        <td>
 						        	
                                     
-                                    <button class="btn btn-danger" (click)="alertDeletFuntion(1)">Delete</button>
+                                    <button class="btn btn-danger" (click)="alertDeletFuntion(item.oId)">Delete</button>
 						        </td>
 						      </tr>
                               }
