@@ -6,17 +6,20 @@ import {
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { APIService } from '../../shardData/api.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
+import { LoaderComponent } from '../../loader/loader.component';
 
 @Component({
   selector: 'app-update-about',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, LoaderComponent],
   templateUrl: './update-about.component.html',
   styleUrl: './update-about.component.css'
 })
 export class UpdateAboutComponent implements OnInit {
 
   selectedFile: File | null = null;
-
+isLoading=false;
   product: any;
   ngOnInit() {
     this.getAllAbout();
@@ -25,7 +28,7 @@ export class UpdateAboutComponent implements OnInit {
   aboutform: FormGroup;
   aboutUpdateform: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: APIService) {
+  constructor(private fb: FormBuilder, private apiService: APIService ,private dialog: MatDialog) {
 
     this.aboutform = this.fb.group({
       title: ['', Validators.required],
@@ -34,6 +37,7 @@ export class UpdateAboutComponent implements OnInit {
       Description: ['', Validators.required],
     });
 
+    
 
 
     this.aboutUpdateform = this.fb.group({
@@ -55,14 +59,32 @@ export class UpdateAboutComponent implements OnInit {
   }
 
   getAllAbout() {
+    this.isLoading = true; // Start loading
     this.apiService.getAllAbout().subscribe({
       next: (res) => {
         console.log("About section fetched successfully:", res.data);
         this.product = res.data;
+        console.log(res);
+
+        var message= res.message;
+        var type = res.success ? "success" : "error";
+         this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
+
         console.log(this.product);
       },
       error: (err) => {
         console.error('Error fetching about section:', err);
+        var message= err.message;
+        var type = err.success ? "success" : "error";
+         this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
+      },
+
+      complete: () => {
+        this.isLoading = false; // Stop loading
       }
     });
   }
@@ -93,12 +115,24 @@ export class UpdateAboutComponent implements OnInit {
     this.apiService.addAbout(formData).subscribe({
       next: (res) => {
         console.log("About section added successfully:", res);
-        alert("About section added successfully");
+        //alert("About section added successfully");
+         var message= res.message;
+        var type = res.success ? "success" : "error";
+         this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
+
         this.getAllAbout(); // Refresh the about section list
+
       },
       error: (err) => {
         console.error('Error adding about section:', err);
-        alert("Error adding about section");
+        //alert("Error adding about section");
+         var message= err.message;
+        var type = err.success ? "success" : "error";
+         this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
       }
     });
 

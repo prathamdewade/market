@@ -5,31 +5,35 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { APIService } from '../shardData/api.service';
+import { MatDialog } from '@angular/material/dialog';
+
+import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
+import { LoaderComponent } from '../loader/loader.component';
 @Component({
   selector: 'app-services',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, LoaderComponent],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css'
 })
 export class ServicesComponent implements OnInit {
 
-
+  isLoading = false;
   singleProduct: any = 0
   orderform: FormGroup;
   product: any;
 
   paymentStatusOptions = [
-  'Pending',
-  'Processing',
-  'Paid',
-  'Failed',
-  'Refunded',
-  'Cancelled',
-  'PartiallyPaid',
-  'Overpaid'
-];
+    'Pending',
+    'Processing',
+    'Paid',
+    'Failed',
+    'Refunded',
+    'Cancelled',
+    'PartiallyPaid',
+    'Overpaid'
+  ];
 
-  constructor(private fb: FormBuilder, private apiService: APIService) {
+  constructor(private fb: FormBuilder, private apiService: APIService, private dialog: MatDialog) {
     this.orderform = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -47,13 +51,29 @@ export class ServicesComponent implements OnInit {
 
   //fetch products from the API
   getAllProducts() {
+    this.isLoading = true; // Start loading
     this.apiService.getAllProduct().subscribe(
       (data: any) => {
         this.product = data.data;
-        console.log('Products fetched successfully:', data);
+        // console.log('Products fetched successfully:', data);
+        var message = "Products fetched successfully";
+        var type = "success";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+          // width: '300px'
+        });
       },
       (error) => {
-        console.error('Error fetching products:', error);
+        // console.error('Error fetching products:', error);
+        var message = "Error fetching products";
+        var type = "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+          // width: '300px'
+        });
+      },
+      () => {
+        this.isLoading = false; // Stop loading
       }
     );
   }
@@ -85,15 +105,21 @@ export class ServicesComponent implements OnInit {
     //call the API to submit the order
     this.apiService.addOrder(orderDto).subscribe(
       (response) => {
-        console.log('Order submitted successfully:', response);
-        // Optionally, reset the form or show a success message
-        alert('Order submitted successfully!');
+        var message = response.message;
+        var type = response.success ? "success" : "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+          // width: '300px'
+        });
         this.orderform.reset();
       },
       (error) => {
-        console.error('Error submitting order:', error);
-        alert('Failed to submit order. Please try again.');
-        // Optionally, show an error message
+        var message = "Error submitting order";
+        var type = "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+          // width: '300px'
+        });
       }
     );
     console.log(orderDto);
@@ -102,7 +128,7 @@ export class ServicesComponent implements OnInit {
 
 
 
-buy(productData: any) {
+  buy(productData: any) {
     this.singleProduct = productData;
     console.log('Selected product:', this.singleProduct);
   }
@@ -160,6 +186,6 @@ buy(productData: any) {
 
   ]
 
-  
+
 
 }

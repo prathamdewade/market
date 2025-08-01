@@ -3,10 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { APIService, Product } from '../shardData/api.service';
+import { LoaderComponent } from '../loader/loader.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageDialogComponent } from '../message-dialog/message-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, LoaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -14,8 +17,9 @@ export class DashboardComponent implements OnInit {
   productForm: FormGroup;
   selectedFile: File | null = null;
   updateProduct!: FormGroup;
+  isLoading = false;
 
-  constructor(private fb: FormBuilder, private apiservice: APIService) {
+  constructor(private fb: FormBuilder, private apiservice: APIService,private dialog: MatDialog) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
@@ -71,15 +75,25 @@ export class DashboardComponent implements OnInit {
     // Call the service to add the product
     this.apiservice.addProduct(formData).subscribe({
       next: (response) => {
-        console.log('Product added successfully', response);
-        alert('Product added successfully');
+        // console.log('Product added successfully', response);
+        // alert('Product added successfully');
+        var message = response.message;
+        var type = response.success ? "success" : "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        }); 
         this.productForm.reset();
         this.selectedFile = null; // Reset the file input
         this.fetchProducts();
       },
       error: (error) => {
-        console.error('Error adding product', error);
-        alert('Error adding product. Please try again.');
+        // console.error('Error adding product', error);
+        // alert('Error adding product. Please try again.');
+        var message = "Error adding product";
+        var type = "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        });
       }
 
     }
@@ -89,12 +103,26 @@ export class DashboardComponent implements OnInit {
   // Fetch all products on component initialization
   products: Product[] = [];
   fetchProducts() {
+    this.isLoading = true; // Start loading
     this.apiservice.getAllProduct().subscribe((res: any) => {
       this.products = res.data;
-      console.log(this.products);
+     // console.log(this.products);
+     var message = res.message;
+      var type = res.success ? "success" : "error";
+      this.dialog.open(MessageDialogComponent, {
+        data: { message, type}
+      });
     }, (error) => {
-      console.error('Error fetching products', error);
-    })
+      //console.error('Error fetching products', error);
+      var message = "Error fetching products";
+      var type = "error";
+      this.dialog.open(MessageDialogComponent, {
+        data: { message, type }
+      });
+    }
+  , () => {
+      this.isLoading = false; // Stop loading
+    });
   }
 
   product: any = [1, 2, 3, 4, 5]
@@ -109,12 +137,19 @@ export class DashboardComponent implements OnInit {
     var permistion = confirm("Are You sure Do you want to delete this product");
     if (permistion) {
       this.apiservice.deleteProduct(id).subscribe((res: any) => {
-        console.log(res);
-        alert("Product Deleted Successfully");
+        var message = res.message;
+        var type = res.success ? "success" : "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        });
         this.fetchProducts(); // Refresh the product list after deletion
       }, (error) => {
         console.error('Error deleting product', error);
-        alert('Error deleting product. Please try again.');
+        var message = "Error deleting product";
+        var type = "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        });
       });
     }
   }
@@ -161,15 +196,21 @@ export class DashboardComponent implements OnInit {
 
     this.apiservice.updateProduct(formData, id).subscribe({
       next: (res) => {
-        console.log('Product updated successfully', res);
-        alert('Product updated successfully');
+       var message = res.message;
+        var type = res.success ? "success" : "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        });
         this.updateProduct.reset();
         this.selectedFile = null; // Reset the file input
         this.fetchProducts(); // Refresh the product list after update
       },
       error: (error) => {
-        console.error('Error updating product', error);
-        alert('Error updating product. Please try again.');
+        var message = "Error updating product";
+        var type = "error";
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type }
+        });
       }
     });
 

@@ -6,23 +6,26 @@ import {
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { APIService } from '../../shardData/api.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
+import { LoaderComponent } from '../../loader/loader.component';
 
 @Component({
   selector: 'app-update-banner',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule,LoaderComponent],
   templateUrl: './update-banner.component.html',
   styleUrl: './update-banner.component.css'
 })
 export class UpdateBannerComponent implements OnInit {
 
   product: any ;
-
+  isLoading=false;
   
 
   bannerForm: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private apiService: APIService) {
+  constructor(private fb: FormBuilder, private apiService: APIService ,private dialog: MatDialog) {
     this.bannerForm = this.fb.group({
       image: ['', Validators.required],
       Description: ['', Validators.required],
@@ -42,14 +45,26 @@ export class UpdateBannerComponent implements OnInit {
      this.getAllBanner();
   }
   getAllBanner(){
+    this.isLoading = true; // Start loading
       this.apiService.getAllBanners().subscribe({
       next: (res) => {
         console.log("Banners fetched successfully:", res.data);
-       this.product = res.data;
-        console.log(this.product);
+         this.product = res.data;
+               var message= res.message;
+                var type = res.success ? "success" : "error";
+                 this.dialog.open(MessageDialogComponent, {
+                    data: { message, type },
+                  });
+        
       },
       error: (err) => {
         console.error('Error fetching banners:', err);
+        this.dialog.open(MessageDialogComponent, {
+          data: { message: 'Failed to fetch banners. Please try again.', type: 'error' },
+        });
+      },
+      complete: () => {
+        this.isLoading = false; // Stop loading
       }
     });
   }
@@ -78,7 +93,13 @@ export class UpdateBannerComponent implements OnInit {
     console.log(this.bannerForm.value);
     this.apiService.addBanner(formData).subscribe({
       next: () =>{
-        alert('Banner added successfully');
+        //alert('Banner added successfully');
+        console.log('Banner added successfully');
+        var message = 'Banner added successfully';
+        var type = 'success';
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+        });
         this.bannerForm.reset();
         this.selectedFile = null; // Reset the file input
         this.getAllBanner(); // Refresh the banner list
@@ -86,7 +107,12 @@ export class UpdateBannerComponent implements OnInit {
         ,
       error: err => {
         console.error('Error adding banner:', err);
-        alert('Failed to add banner. Please try again.');
+       // alert('Failed to add banner. Please try again.');
+        var message = 'Failed to add banner. Please try again.';
+        var type = 'error';
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+        });
       }
     });
   }
@@ -119,15 +145,27 @@ export class UpdateBannerComponent implements OnInit {
 
     this.apiService.updateBanner(formData, id).subscribe({
       next: (res) => {
-        console.log('Banner updated successfully', res);
-        alert('Banner updated successfully');
+        //console.log('Banner updated successfully', res);
+       // alert('Banner updated successfully');
+        var message = 'Banner updated successfully';
+        var type = 'success';
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+        });
+         console.log("Banner updated successfully:", res);
+         // Reset the form
         this.updateBanner.reset();
         this.selectedFile = null; // Reset the file input
         this.getAllBanner(); // Refresh the banner list after update
       },
       error: (error) => {
-        console.error('Error updating banner', error);
-        alert('Error updating banner. Please try again.');
+        // console.error('Error updating banner', error);
+        // alert('Error updating banner. Please try again.');
+        var message = 'Error updating banner. Please try again.';
+        var type = 'error';
+        this.dialog.open(MessageDialogComponent, {
+          data: { message, type },
+        });
       }
     });
 
@@ -140,13 +178,23 @@ export class UpdateBannerComponent implements OnInit {
     if (isConfirm) {
       this.apiService.deleteBanner(id).subscribe({
         next: (res) => {
-          console.log("Banner deleted successfully:", res);
-          alert("Banner deleted successfully");
+          // console.log("Banner deleted successfully:", res);
+          // alert("Banner deleted successfully");
+          var message = 'Banner deleted successfully';
+          var type = 'success';
+          this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
           this.getAllBanner(); // Refresh the banner list after deletion
         },
         error: (err) => {
-          console.error('Error deleting banner:', err);
-          alert('Failed to delete banner. Please try again.');
+          // console.error('Error deleting banner:', err);
+          // alert('Failed to delete banner. Please try again.');
+          var message = 'Failed to delete banner. Please try again.';
+          var type = 'error';
+          this.dialog.open(MessageDialogComponent, {
+            data: { message, type },
+          });
         }
       });
     }
