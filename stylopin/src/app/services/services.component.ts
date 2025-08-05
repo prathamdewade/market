@@ -51,26 +51,26 @@ export class ServicesComponent implements OnInit {
 
   //fetch products from the API
   getAllProducts() {
-    this.isLoading = true; // Start loading
+    this.isLoading = false; // Start loading
     this.apiService.getAllProduct().subscribe(
       (data: any) => {
         this.product = data.data;
-        // console.log('Products fetched successfully:', data);
-        var message = "Products fetched successfully";
-        var type = "success";
-        this.dialog.open(MessageDialogComponent, {
-          data: { message, type },
-          // width: '300px'
-        });
+         console.log('Products fetched successfully:', data);
+        // var message = "Products fetched successfully";
+        // var type = "success";
+        // this.dialog.open(MessageDialogComponent, {
+        //   data: { message, type },
+        //   // width: '300px'
+        // });
       },
       (error) => {
-        // console.error('Error fetching products:', error);
-        var message = "Error fetching products";
-        var type = "error";
-        this.dialog.open(MessageDialogComponent, {
-          data: { message, type },
-          // width: '300px'
-        });
+        console.error('Error fetching products:', error);
+        // var message = "Error fetching products";
+        // var type = "error";
+        // this.dialog.open(MessageDialogComponent, {
+        //   data: { message, type },
+        //   // width: '300px'
+        // });
       },
       () => {
         this.isLoading = false; // Stop loading
